@@ -1,10 +1,9 @@
-// app/store.js
 import { configureStore } from "@reduxjs/toolkit";
-// import friendshipReducer from './slices/friendshipSlice';
+import authReducer from "./slices/authSlice";
 
 const store = configureStore({
   reducer: {
-    // friendship: friendshipReducer,
+    auth: authReducer, // Thêm auth reducer vào store
   },
 });
 
