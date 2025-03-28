@@ -6,7 +6,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: null,
-    token: null,
+    token: localStorage.getItem("token") || null,
     isAuthenticated: false,
     loading: false,
     error: null,
@@ -22,9 +22,12 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
+        console.log("action.payload: ", action.payload);
+        
         state.loading = false;
         state.user = action.payload.user || null; // Giả sử API trả về user object
-        state.token = action.payload.token; // Token từ response
+        state.token = action.payload.data.token; // Token từ response
+        localStorage.setItem("jwt", action.payload.data.token); // Lưu token vào localStorage
         state.isAuthenticated = true;
       })
       .addCase(login.rejected, (state, action) => {

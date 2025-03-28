@@ -2,11 +2,13 @@ import httpRequest from "@/config/axios"; // Import httpRequest đã config từ
 
 const authService = {
   // Hàm đăng nhập
-  login: (username, password) =>
-    httpRequest.post("/auth/login", {
+  login: (username, password) =>{
+    return  httpRequest.post("/auth/login", {
       username,
       password,
-    }),
+    })
+  },
+   
 
   // Hàm đăng ký
   register: (username, password) =>

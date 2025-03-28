@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { CssVarsProvider } from "@mui/joy/styles";
@@ -17,35 +17,45 @@ import {
   Typography,
 } from "@mui/joy";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { login } from "@/stores/middlewares/authMiddleware";
+import { successToast } from "@/utils/toast"; // Added missing import
 
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      const { email, password, rememberMe } = e.currentTarget.elements;
-      if (!email.value.trim() || !password.value)
-        throw new Error("Please fill in all required fields");
-      const result = await dispatch(
-        loginUser({ email: email.value.trim(), password: password.value })
-      ).unwrap();
-      if (result) {
-        navigate("/");
-        successToast("Log in successfully");
-      }
-    } catch (err) {
-      errorToast(err.message || "Login failed. Please try again.");
-      setIsLoading(false);
+    const { username, password } = e.currentTarget.elements;
+    // Check input values
+    if (!username.value.trim() || !password.value) {
+      throw new Error("Please fill in all required fields");
+    }
+
+    // Pass credentials to login middleware
+    const result = await dispatch(
+      login({
+        username: username.value,
+        password: password.value,
+      })
+    ).unwrap();
+
+    if (result) {
+      navigate("/");
+      successToast("Log in successfully");
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, []);
+
   return (
-    <CssVarsProvider >
+    <CssVarsProvider>
       <Container maxWidth="xs">
         <Box
           sx={{
@@ -69,12 +79,11 @@ function Login() {
               <Grid container spacing={2}>
                 <Grid xs={12}>
                   <FormControl required>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Username</FormLabel>
                     <Input
-                      type="email"
-                      name="email"
-                      disabled={isLoading}
-                      autoComplete="email"
+                      type="text" // Changed from "username" to "text"
+                      name="username"
+                      autoComplete="username"
                     />
                   </FormControl>
                 </Grid>
@@ -84,12 +93,10 @@ function Login() {
                     <Input
                       type={showPassword ? "text" : "password"}
                       name="password"
-                      disabled={isLoading}
                       autoComplete="current-password"
                       endDecorator={
                         <IconButton
                           onClick={() => setShowPassword(!showPassword)}
-                          disabled={isLoading}
                         >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -105,25 +112,13 @@ function Login() {
                   size="sm"
                   label="Remember for 30 days"
                   name="rememberMe"
-                  disabled={isLoading}
                 />
               </Box>
-              <Button
-                fullWidth
-                type="submit"
-                variant="solid"
-                loading={isLoading}
-                sx={{ mb: 3 }}
-              >
+              <Button fullWidth type="submit" variant="solid" sx={{ mb: 3 }}>
                 Log in
               </Button>
               <Box sx={{ textAlign: "center" }}>
-                <Link
-                  fontSize="sm"
-                  href="/register"
-                  fontWeight="lg"
-                  disabled={isLoading}
-                >
+                <Link fontSize="sm" href="/register" fontWeight="lg">
                   Don't have an account? Register now!
                 </Link>
               </Box>

@@ -11,7 +11,6 @@ const httpRequest = axios.create({
 httpRequest.interceptors.response.use(
   (response) => response.data, // Chỉ return response.data
   (error) => {
-    console.log("API Error:", error);
     errorToast(error.response?.data?.message || "Something went wrong");
     return Promise.reject(error);
   }

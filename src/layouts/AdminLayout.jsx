@@ -25,8 +25,8 @@ import {
   Category,
   ChevronLeft,
   ChevronRight,
-  Lock,          // Added for Permissions
-  Group,         // Added for Roles
+  Lock, // Added for Permissions
+  Group, // Added for Roles
 } from "@mui/icons-material";
 import { motion } from "framer-motion";
 
@@ -118,7 +118,6 @@ const AdminLayout = () => {
             sx={{
               my: 0.5,
               borderRadius: 2,
-              "&:hover": { bgcolor: "blue.50" },
               transition: "background-color 0.2s",
             }}
           >
@@ -131,7 +130,6 @@ const AdminLayout = () => {
                 primaryTypographyProps={{
                   fontWeight: "medium",
                   color: "text.primary",
-                  "&:hover": { color: "blue.600" },
                 }}
               />
             )}
@@ -152,7 +150,7 @@ const AdminLayout = () => {
         )}
         {[
           { to: "/users", text: "Users", icon: <People /> },
-          { to: "/roles", text: "Roles", icon: <Group /> },           // Added Roles
+          { to: "/roles", text: "Roles", icon: <Group /> }, // Added Roles
           { to: "/permissions", text: "Permissions", icon: <Lock /> }, // Added Permissions
         ].map((item) => (
           <ListItem
@@ -163,7 +161,6 @@ const AdminLayout = () => {
               my: 0.5,
               mx: sidebarOpen ? 2 : 0,
               borderRadius: 2,
-              "&:hover": { bgcolor: "blue.50" },
               transition: "background-color 0.2s",
             }}
           >
@@ -176,7 +173,6 @@ const AdminLayout = () => {
                 primaryTypographyProps={{
                   fontWeight: "medium",
                   color: "text.primary",
-                  "&:hover": { color: "blue.600" },
                 }}
               />
             )}
@@ -211,7 +207,6 @@ const AdminLayout = () => {
               my: 0.5,
               mx: sidebarOpen ? 2 : 0,
               borderRadius: 2,
-              "&:hover": { bgcolor: "blue.50" },
               transition: "background-color 0.2s",
             }}
           >
@@ -224,7 +219,6 @@ const AdminLayout = () => {
                 primaryTypographyProps={{
                   fontWeight: "medium",
                   color: "text.primary",
-                  "&:hover": { color: "blue.600" },
                 }}
               />
             )}
